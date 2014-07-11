@@ -187,6 +187,25 @@ class Wit(object):
             extra_headers={'Content-Type': 'application/json'})
         return self._handle_response(response)
 
+    def post_expression(self, msg_body, outcome, msg_id=None):
+        """Add a new validated expression to a specific intent. Must use version 20140417.
+
+        :param msg_body: A string expression
+        :param outcome: A dict representing the desired outcome. Keys include 'intent', 'entities', and 'confidence'
+        :param msg_id: (optional) A specific message id
+
+        Refer to *** FILL ME IN ***
+        """
+        assert(msg_body and outcome) # Safe check so we aren't training on incomplete data
+        body = {'msg_body':msg_body, 'outcome':outcome}
+        if msg_id:
+            body['msg_id'] = msg_id
+
+        response = self._connector.post(
+            json.dumps(body), 'expressions',
+            extra_headers={'Content-Type':'application/json'})
+        return self._handle_response(response)
+
     def get_entities_by_id(self, *args, **kwargs):
         """Alias for get_entity_by_id"""
         return self.get_entity_by_id(*args, **kwargs)
